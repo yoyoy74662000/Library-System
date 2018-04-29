@@ -1,0 +1,33 @@
+
+create schema Library;
+use Library;
+
+CREATE TABLE IF NOT EXISTS Borrower(
+        Card_no INT NOT NULL primary key auto_increment,
+	 	Fname VARCHAR(15) NOT NULL,
+	  	Lname VARCHAR(15) NOT NULL,
+	  	Address VARCHAR(60),
+	  	Phone CHAR(20),
+	  	PRIMARY KEY(Card_no));
+
+CREATE TABLE IF NOT EXISTS Book_Loans( 
+        Loan_id INT NOT NULL AUTO_INCREMENT,
+        isbn VARCHAR(15) NOT NULL,
+	  	Card_no INT NOT NULL,
+	  	Date_out DATE,
+	  	Due_date DATE,
+	  	Date_in DATE,
+	  	PRIMARY KEY(Loan_id),
+	  	FOREIGN KEY(isbn) REFERENCES Book(isbn) ON DELETE CASCADE,
+	  	FOREIGN KEY(Card_no) REFERENCES Borrower(Card_no) ON DELETE CASCADE);
+
+
+CREATE TABLE IF NOT EXISTS FINES(
+	Loan_id	 INT(5) NOT NULL AUTO_INCREMENT,
+	fine_amt DECIMAL(5,2) NOT NULL,
+	paid 	tinyint(1) NOT NULL,
+	CONSTRAINT pk_fines PRIMARY KEY (Loan_id),
+	CONSTRAINT fk_fines FOREIGN KEY (Loan_id) REFERENCES BOOK_LOANS(Loan_id) ON DELETE CASCADE);
+
+
+
